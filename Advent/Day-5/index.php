@@ -22,9 +22,9 @@ function createFloor($input): array
 {
     $oceanFloor = array(array());
 
-    for($i = 0; $i < count($input); $i++)
+    for($i = 0; $i < 1000; $i++)
     {
-        for($j = 0; $j < count($input); $j++)
+        for($j = 0; $j < 1000; $j++)
         {
             $oceanFloor[$i][$j] = 0;
         }
@@ -98,9 +98,8 @@ function markFloor($oceanFloor, $input)
        }
        //echo intval($x1) . " " . intval($y1) . "<br>";
        //echo intval($x2) . " " . intval($y2) . "<br>";
-           // $markedOceanFloor[intval($x1)][intval($y1)] += 1;
-          // $markedOceanFloor[intval($x2)][intval($y2)] += 1;
-
+       // $markedOceanFloor[intval($x1)][intval($y1)] += 1;
+       // $markedOceanFloor[intval($x2)][intval($y2)] += 1;
    }
 
     return $markedOceanFloor;
@@ -108,7 +107,20 @@ function markFloor($oceanFloor, $input)
 
 $markedOceanFloor = markFloor($setOceanFloor, $setInput);
 
-echo "<pre>";
+/*echo "<pre>";
 print_r($markedOceanFloor);
-echo "</pre>";
+echo "</pre>";*/
+
+$total = 0;
+
+for($i = 0; $i < count($markedOceanFloor); $i++)
+{
+    for($j = 0; $j < count($markedOceanFloor); $j++)
+    {
+        if($markedOceanFloor[$i][$j] > 1)
+        $total++;
+    }
+}
+echo $total;
+
 
