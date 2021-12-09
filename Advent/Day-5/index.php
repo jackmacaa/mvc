@@ -121,6 +121,6 @@ for($i = 0; $i < count($markedOceanFloor); $i++)
         $total++;
     }
 }
-echo $total;
+echo "The total number of line crossing more than once is: " . $total;
 
 
