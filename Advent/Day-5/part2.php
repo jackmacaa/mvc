@@ -1,5 +1,5 @@
 <?php
-
+//error_reporting(E_ALL &~ E_NOTICE &~ E_WARNING);
 function handleInput(): array
 {
     $input = file("input.txt");
@@ -22,9 +22,9 @@ function createFloor($input): array
 {
     $oceanFloor = array(array());
 
-    for($i = 0; $i < 10; $i++)
+    for($i = 0; $i < 1000; $i++)
     {
-        for($j = 0; $j < 10; $j++)
+        for($j = 0; $j < 1000; $j++)
         {
             $oceanFloor[$i][$j] = 0;
         }
@@ -94,34 +94,85 @@ function markFloorStraight($oceanFloor, $input)
     return $markedOceanFloor;
 }
 
+
 function markFloorDiagonal($oceanFloor, $input)
 {
     $markedOceanFloor = $oceanFloor;
     //echo count($input); exit;
-    for($i = 0; $i < count($input); $i++) {
+    for($i = 0; $i < count($input); $i++)
+    {
         $x1 = $input[$i][0][0];
         $y1 = $input[$i][0][1];
 
         $x2 = $input[$i][1][0];
         $y2 = $input[$i][1][1];
 
-        // 4,3 -> 2,1 = 4,1 3,2 2,3
-        // 4,1 -> 2,3 =
-        // 2,3 -> 4,1 = 2,3 3,2 4,1
-        //if(($x1 - $x2) == ($))
+        // 1,1 -> 3,3 = 1,1 2,2 3,3
+        if ($x1 == $y1 && $x2 == $y2) {
+            while ($x1 <= $x2) {
+                $markedOceanFloor[intval($x1)][intval($y1)] += 1;
+                $x1++;
+                $y1++;
+            }
+            $x1 = $input[$i][0][0];
+            $y1 = $input[$i][0][1];
+            // 3,3 -> 1,1
+            while ($x2 <= $x1) {
+                $markedOceanFloor[intval($x1)][intval($y1)] += 1;
+                $x1--;
+                $y1--;
+            }
+            $x1 = $input[$i][0][0];
+            $y1 = $input[$i][0][1];
+        }
+        // 9,7 -> 7,9 = 9,7 8,8 7,9
+        if (($x1 - $x2) == ($y2 - $y1))
+        {
+            while ($x1 >= $x2)
+            {
+                $markedOceanFloor[intval($x1)][intval($y1)] += 1;
+                $x1--;
+                $y1++;
+            }
+            $x1 = $input[$i][0][0];
+            $y1 = $input[$i][0][1];
 
-        //
+        }
+        // 6,4 -> 2,0
+        if(($x1 - $x2) == ($y1 - $y2))
+        {
+            while($x1 >= $x2)
+            {
+                $markedOceanFloor[intval($x1)][intval($y1)] += 1;
+                $x1--;
+                $y1--;
+            }
+            $x1 = $input[$i][0][0];
+            $y1 = $input[$i][0][1];
+        }
+        // 5,5 -> 8,2
+        // 3,3 -> 6,0
+        if(($x2 - $x1) == ($y1 - $y2))
+        {
+            while($x2 >= $x1)
+            {
+                $markedOceanFloor[intval($x1)][intval($y1)] += 1;
+                $x1++;
+                $y1--;
+            }
+            $x1 = $input[$i][0][0];
+            $y1 = $input[$i][0][1];
+        }
     }
     return $markedOceanFloor;
 }
 
 $markedOceanFloor = markFloorStraight($setOceanFloor, $setInput);
-$markedOceanFloor2 = markFloorDiagonal($markedOceanFloor, $setInput);
+$markedOceanFloor = markFloorDiagonal($markedOceanFloor, $setInput);
 
-
-echo "<pre>";
+/*echo "<pre>";
 print_r($markedOceanFloor);
-echo "</pre>";
+echo "</pre>";*/
 
 $total = 0;
 
